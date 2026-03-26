@@ -92,7 +92,7 @@ with left_col:
             color_map_workload.append(SILVER_DIM)
     
     fig_workload = px.bar(workload_freq, x='client_count', y='coach_frequency',
-                          title=f"Highlighted: {max_clients} Clients (Neon) vs ~Average 4 Clients (Light Blue)",
+                        #   title=f"Highlighted: {max_clients} Clients (Neon) vs ~Average 4 Clients (Light Blue)",
                           labels={'client_count': 'Assigned Client Count', 'coach_frequency': 'Frequency (Coaches)'})
     
     fig_workload.update_traces(marker_color=color_map_workload, marker_line_width=0) 
@@ -118,7 +118,7 @@ with right_col:
     color_map_engage = [VIVID_HIGHLIGHT if val >= 90 else SILVER_DIM for val in top_bottom['Full Payment']]
     
     fig_engage = px.bar(top_bottom, y='coach_name', x='Full Payment', orientation='h',
-                        title="Top Performers (Neon) vs Bottom (Silver) vs Average (Light Blue)",
+                        # title="Top Performers (Neon) vs Bottom (Silver) vs Average (Light Blue)",
                         labels={'Full Payment': 'Full Payment Rate (%)'})
     
     fig_engage.update_traces(marker_color=color_map_engage, marker_line_width=0)
@@ -185,7 +185,7 @@ with right_col2:
     ]
     
     fig_match = px.imshow(gender_match, text_auto='.1f', color_continuous_scale=custom_blues_scale_ghosted, 
-                          title="Preference Matching: Highlights Same-Gender (Low Values Ghosted)",
+                        #   title="Preference Matching: Highlights Same-Gender (Low Values Ghosted)",
                           labels=dict(x="Assigned Coach Gender", y="Client Gender", color="%"))
     fig_match.update_coloraxes(showscale=False) 
     st.plotly_chart(fig_match, use_container_width=True, theme="streamlit")
