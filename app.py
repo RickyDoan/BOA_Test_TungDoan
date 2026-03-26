@@ -99,7 +99,7 @@ with left_col:
             color_map_workload.append(SILVER_DIM)
     
     fig_workload = px.bar(workload_freq, x='client_count', y='coach_frequency',
-                          title=f"Highlighted: {max_clients} Clients (Neon) vs ~Average 4 Clients (Light Blue)",
+                        #   title=f"Highlighted: {max_clients} Clients (Neon) vs ~Average 4 Clients (Light Blue)",
                           labels={'client_count': 'Assigned Client Count', 'coach_frequency': 'Frequency (Coaches)'})
     
     # Ép mảng màu vào cột, bo tròn nhẹ góc cột, ẩn viền
