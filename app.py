@@ -112,31 +112,40 @@ with left_col:
     st.plotly_chart(fig_workload, use_container_width=True, theme="streamlit")
 
 # ==========================================
-# 4. ENGAGEMENT PERFORMANCE (ĐÃ FIX: BOTTOM LÀ MÀU BẠC CỦA CHÚNG TA)
+# 4. ENGAGEMENT PERFORMANCE (ĐÃ THÊM ĐƯỜNG TRUNG BÌNH)
 # ==========================================
 with right_col:
     st.markdown("## 💰 3. Financial Engagement (Performance Highlights)")
+    
+    # Tính toán tỷ lệ thanh toán cho từng Coach
     engagement = pd.crosstab(df_clients['coach_name'], df_clients['payment_status'], normalize='index') * 100
     engagement = engagement.reset_index().sort_values('Full Payment', ascending=False)
-    # Lấy Top 5 và Bottom 5
+    
+    # TÍNH TỶ LỆ TRUNG BÌNH CỦA TOÀN HỆ THỐNG
+    avg_payment_rate = engagement['Full Payment'].mean()
+    
+    # Lấy Top 5 và Bottom 5 để hiển thị
     top_bottom = pd.concat([engagement.head(5), engagement.tail(5)])
     
-    # LOGIC ĐỔ MÀU ĐỒNG NHẤT (ĐÃ FIX Ở ĐÂY): 
-    # Nhóm Top Giỏi (>= 90%) -> Sáng Xanh Neon rực rỡ.
-    # Nhóm Bottom (Cái user muốn sửa) -> Ép màu Bạc Slate mờ mịt sạch sẽ.
+    # Logic đổ màu: >= 90% -> Xanh Neon | Còn lại -> Bạc Slate
     color_map_engage = [VIVID_HIGHLIGHT if val >= 90 else SILVER_DIM for val in top_bottom['Full Payment']]
     
     fig_engage = px.bar(top_bottom, y='coach_name', x='Full Payment', orientation='h',
-                        # title="Top Performers (Highlighted) vs Bottom Performers (Dim Silver)",
+                        title="Top Performers (Neon) vs Bottom (Silver) vs Average (Light Blue)",
                         labels={'Full Payment': 'Full Payment Rate (%)'})
     
-    # Ép bộ màu tùy chỉnh vào biểu đồ, bo góc, ẩn viền
+    # Ép màu, bo góc, ẩn viền
     fig_engage.update_traces(marker_color=color_map_engage, marker_line_width=0)
     fig_engage.update_layout(yaxis={'categoryorder':'total ascending'}, showlegend=False)
-    st.plotly_chart(fig_engage, use_container_width=True, theme="streamlit")
+    
+    # THÊM ĐƯỜNG TRUNG BÌNH (VLINE) MÀU XANH NHẸ
+    fig_engage.add_vline(x=avg_payment_rate, line_dash="dash", line_color=AVG_HIGHLIGHT, line_width=2, 
+                         annotation_text=f"Avg ({avg_payment_rate:.1f}%)", 
+                         annotation_font_color=AVG_HIGHLIGHT, 
+                         annotation_font_size=12,
+                         annotation_position="bottom right") # Để chữ nằm gọn dưới cùng bên phải đường line
 
-st.markdown("<br>", unsafe_allow_html=True)
-left_col2, right_col2 = st.columns(2)
+    st.plotly_chart(fig_engage, use_container_width=True, theme="streamlit")
 
 # ==========================================
 # 5. CHURN TREND
