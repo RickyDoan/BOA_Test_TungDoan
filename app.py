@@ -127,7 +127,7 @@ with right_col:
     color_map_engage = [VIVID_HIGHLIGHT if val >= 90 else SILVER_DIM for val in top_bottom['Full Payment']]
     
     fig_engage = px.bar(top_bottom, y='coach_name', x='Full Payment', orientation='h',
-                        title="Top Performers (Highlighted) vs Bottom Performers (Dim Silver)",
+                        # title="Top Performers (Highlighted) vs Bottom Performers (Dim Silver)",
                         labels={'Full Payment': 'Full Payment Rate (%)'})
     
     # Ép bộ màu tùy chỉnh vào biểu đồ, bo góc, ẩn viền
@@ -194,7 +194,7 @@ with right_col2:
     ]
     
     fig_match = px.imshow(gender_match, text_auto='.1f', color_continuous_scale=custom_blues_scale_ghosted, 
-                          title="Preference Matching: Highlights Same-Gender (Low Values Ghosted)",
+                        #   title="Preference Matching: Highlights Same-Gender (Low Values Ghosted)",
                           labels=dict(x="Assigned Coach Gender", y="Client Gender", color="%"))
     fig_match.update_coloraxes(showscale=False) # Tắt thanh màu thừa
     st.plotly_chart(fig_match, use_container_width=True, theme="streamlit")
